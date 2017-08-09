@@ -1,0 +1,66 @@
+<div mdl class="mdl-layout mdl-js-layout mdl-layout--fixed-header  has-scrolling-header">
+  <header class="mdl-layout__header mdl-layout__header--waterfall portfolio-header">
+    <div class="mdl-layout__header-row portfolio-logo-row">
+      <span class="mdl-layout__title">
+                    <div class="portfolio-logo"></div>
+                <span class="mdl-layout__title">Simple portfolio website</span>
+      </span>
+    </div>
+  </header>
+  <main class="mdl-layout__content">
+    <div class="mdl-grid portfolio-l-max-width">
+      <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
+        <div class="mdl-layout__header-row portfolio-navigation-row portfolio-l-header">
+          <nav class="mdl-navigation  mdl-typography--body-1-force-preferred-font">
+            <a class="mdl-navigation__link " [class.is-active]="type==='l'"  (click)="type='l'">Login</a>
+            <a class="mdl-navigation__link" [class.is-active]="type==='r'" (click)="type='r'">Register</a>
+          </nav>
+        </div>
+        <div class="mdl-card__supporting-text" [ngSwitch]="type">
+          <form *ngSwitchCase="'l'" >
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" pattern="[A-Z,a-z, ]*" type="text" id="Name">
+              <label class="mdl-textfield__label" for="Name">Name...</label>
+              <span class="mdl-textfield__error">Letters and spaces only</span>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="text" id="Email">
+              <label class="mdl-textfield__label" for="Email">Email...</label>
+            </div>
+
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">Submit</button>
+
+          </form>
+          <form *ngSwitchCase="'r'">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" pattern="[A-Z,a-z, ]*" type="text" id="Name">
+              <label class="mdl-textfield__label" for="Name">Name...</label>
+              <span class="mdl-textfield__error">Letters and spaces only</span>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="text" id="Email">
+              <label class="mdl-textfield__label" for="Email">Email...</label>
+            </div>
+
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit"> Submit</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <div>
+    <footer class="mdl-mini-footer">
+      <div class="mdl-mini-footer__left-section">
+        <div class="mdl-logo">Simple portfolio website</div>
+      </div>
+      <div class="mdl-mini-footer__right-section">
+        <ul class="mdl-mini-footer__link-list">
+          <li><a href="#">Help</a></li>
+          <li><a href="#">Privacy & Terms</a></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+</div>
