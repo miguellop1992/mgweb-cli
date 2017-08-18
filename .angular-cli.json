@@ -50,12 +50,17 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-
+        "../node_modules/summernote/dist/summernote.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
-        "assets/js/adminlte.js"
+        "assets/js/adminlte.js",
+        "../node_modules/summernote/dist/summernote.min.js",
+        "../node_modules/summernote/dist/lang/summernote-cs-CZ.min.js",
+        "../node_modules/summernote/dist/lang/summernote-sk-SK.min.js",
+        "../node_modules/summernote/dist/lang/summernote-hu-HU.min.js",
+        "../node_modules/summernote/dist/lang/summernote-pl-PL.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
