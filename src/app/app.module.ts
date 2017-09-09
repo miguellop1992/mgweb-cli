@@ -13,6 +13,10 @@ import { ContactComponent } from './contact/contact.component';
 import { BlogComponent } from './blog/blog.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { MDLDirective } from './mdl.directive';
+import { LoginApiService } from './api/login-api.service';
+import { StorageService } from './security/storage.service';
+import { AuthService } from './security/auth.service';
+import { AuthGuard } from './security/auth.guard';
 
 var router = [
   {
@@ -46,7 +50,7 @@ var router = [
     HttpModule,
     RouterModule.forRoot(router)
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [StorageService, AuthService, AuthGuard]
 })
 export class AppModule { }

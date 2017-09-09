@@ -198,12 +198,12 @@ footer {
 .portfolio-l-header{
   /* background-color: rgb(63,81,181); */
   background-color: transparent;
-  height: 45px; 
+  /* height: 45px;  */
   padding: 0px 52px;
 }
 
 .portfolio-l-header .mdl-navigation{
-  width: initial;
+  /* width: initial; */
 }
 
 .mdl-l-navigation {
@@ -236,4 +236,10 @@ footer {
     color: rgb(66,66,66);
     /* line-height: 64px; */
     padding: 0 24px;
+}
+
+.label-error{
+  color: #d50000;
+  font-size: 12px;
+  display: block;
 }

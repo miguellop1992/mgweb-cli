@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "panel": "ng serve -a app-panel",
+    "panel": "ng serve -a app-panel --port 4201",
     "app": "ng serve -a app",
     "build": "ng build",
     "test": "ng test",

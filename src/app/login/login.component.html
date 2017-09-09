@@ -12,37 +12,25 @@
       <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
         <div class="mdl-layout__header-row portfolio-navigation-row portfolio-l-header">
           <nav class="mdl-navigation  mdl-typography--body-1-force-preferred-font">
-            <a class="mdl-navigation__link " [class.is-active]="type==='l'"  (click)="type='l'">Login</a>
-            <a class="mdl-navigation__link" [class.is-active]="type==='r'" (click)="type='r'">Register</a>
+            <a class="mdl-navigation__link is-active">Login</a>
           </nav>
         </div>
-        <div class="mdl-card__supporting-text" [ngSwitch]="type">
-          <form *ngSwitchCase="'l'" >
+        <div class="mdl-card__supporting-text" >
+          <form >
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-              <input class="mdl-textfield__input" pattern="[A-Z,a-z, ]*" type="text" id="Name">
-              <label class="mdl-textfield__label" for="Name">Name...</label>
-              <span class="mdl-textfield__error">Letters and spaces only</span>
+              <input class="mdl-textfield__input" [(ngModel)]="cred.email" name="email" type="email" id="email">
+              <label class="mdl-textfield__label" for="email">E-mail...</label>
             </div>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-              <input class="mdl-textfield__input" type="text" id="Email">
-              <label class="mdl-textfield__label" for="Email">Email...</label>
+              <input class="mdl-textfield__input" [(ngModel)]="cred.password"  name="password" type="password" id="password">
+              <label class="mdl-textfield__label" for="password">Password...</label>
             </div>
-
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">Submit</button>
-
-          </form>
-          <form *ngSwitchCase="'r'">
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-              <input class="mdl-textfield__input" pattern="[A-Z,a-z, ]*" type="text" id="Name">
-              <label class="mdl-textfield__label" for="Name">Name...</label>
-              <span class="mdl-textfield__error">Letters and spaces only</span>
+            <div>
+              <span *ngIf="error!=null" class="label-error">{{error}}</span>
+              <br>
             </div>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-              <input class="mdl-textfield__input" type="text" id="Email">
-              <label class="mdl-textfield__label" for="Email">Email...</label>
-            </div>
-
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit"> Submit</button>
+            
+            <button (click)="submit()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">Submit</button>
 
           </form>
         </div>

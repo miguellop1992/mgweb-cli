@@ -1,16 +1,45 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginApiService } from '../api/login-api.service';
+import { ICredential } from '../model/credential';
+import { AuthService } from '../security/auth.service';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/Rx';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [
+    LoginApiService
+  ]
 })
-export class LoginComponent implements OnInit {
-  private type:string='l';
 
-  constructor() { }
+export class LoginComponent implements OnInit {
+  public cred: ICredential;
+  public error: string;
+
+  constructor(
+    private auth: AuthService,
+    private loginApi: LoginApiService) { }
 
   ngOnInit() {
+    this.cred = {
+      email: null,
+      password: null
+    };
+
+  }
+
+
+  submit() {
+    this.loginApi.post(this.cred).subscribe((_cred: ICredential) => {
+
+      this.auth.open(_cred);
+
+    }, (err) => {
+      console.log(err);
+      this.error = err.message;
+    });
 
   }
 

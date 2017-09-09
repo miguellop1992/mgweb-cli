@@ -12,6 +12,7 @@ import { PanelSettingComponent } from './panel-setting/panel-setting.component';
 import { PanelBudgetComponent } from './panel-budget/panel-budget.component';
 import { FormPortfolioComponent } from './panel-portfolio/form-portfolio/form-portfolio.component';
 import { FormBudgetComponent } from './panel-budget/form-budget/form-budget.component';
+import { LoginComponent } from './login/login.component';
 
 import { Ng2Summernote } from 'ng2-summernote/ng2-summernote';
 
@@ -25,14 +26,13 @@ var router = [
       { path: 'blog', component: PanelBlogComponent },
       { path: 'budget', component: PanelBudgetComponent },
       { path: 'budget/new', component: FormBudgetComponent },
-      { path: 'budget/edit/:id', component: FormBudgetComponent },
-      
-      
+      { path: 'budget/edit/:id', component: FormBudgetComponent },      
       { path: '', redirectTo: '/profile', pathMatch: 'full' }
-
     ]
   },
-  { path: '**', redirectTo: '/', pathMatch: 'full' },
+  // { path: 'login', component: LoginComponent },
+  // { path: '**', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/profile', pathMatch: 'full' },
 ];
 
 @NgModule({
@@ -43,6 +43,7 @@ var router = [
     RouterModule.forRoot(router)
   ],
   declarations: [
+    LoginComponent,
     Ng2Summernote,
     AppPanelComponent,
     PanelComponent,
