@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../security/auth.service';
+import { URLHelper } from '../helper/url-helper';
+
 
 @Component({
   selector: 'app-panel',
@@ -7,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PanelComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth:AuthService) { }
 
   ngOnInit() {
+  }
+
+  logout(){
+    this.auth.close().then(()=>{
+      location.href=URLHelper.Instance.URL_HOME;
+    });
   }
 
 }

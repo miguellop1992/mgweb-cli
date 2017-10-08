@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginApiService } from '../api/login-api.service';
 import { ICredential } from '../model/credential';
 import { AuthService } from '../security/auth.service';
+import { URLHelper } from '../helper/url-helper';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
@@ -33,11 +34,10 @@ export class LoginComponent implements OnInit {
 
   submit() {
     this.loginApi.post(this.cred).subscribe((_cred: ICredential) => {
-
-      this.auth.open(_cred);
-
+      this.auth.open(_cred).then((value)=>{
+        location.href=URLHelper.Instance.URL_PANEL;
+      });
     }, (err) => {
-      console.log(err);
       this.error = err.message;
     });
 

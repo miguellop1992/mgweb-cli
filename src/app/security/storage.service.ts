@@ -12,20 +12,26 @@ export class LocalStorage implements IStorage {
   constructor() { }
 
   add(key: string, value: string | object): IStorage {
+    key = encodeURIComponent(key);
     let data: string = (typeof (value) === 'object') ? JSON.stringify(value) : value;
-    localStorage.setItem(key, data);
+    localStorage.setItem(key, encodeURIComponent(data));
     return this;
   }
 
   get(key: string, isObject?): string | object {
-    if (isObject) {
-      return JSON.parse(localStorage.getItem(key));
+    key = encodeURIComponent(key);
+    let data = localStorage.getItem(key);
+
+    if (!data) {
+      return null;
     } else {
-      return localStorage.getItem(key);
+      data = decodeURIComponent(data);
+      return (isObject) ? JSON.parse(data) : data;
     }
   }
 
   remove(key: string): IStorage {
+    key = encodeURIComponent(key);
     localStorage.removeItem(key);
     return this;
   }
@@ -42,21 +48,26 @@ export class SessionStorage implements IStorage {
   constructor() { }
 
   add(key: string, value: string | object): IStorage {
+    key = encodeURIComponent(key);
     let data: string = (typeof (value) === 'object') ? JSON.stringify(value) : value;
-    sessionStorage.setItem(key, data);
+    sessionStorage.setItem(key, encodeURIComponent(data));
     return this;
   }
 
   get(key: string, isObject?): string | object {
-    if (!key) { return null; }
-    if (isObject) {
-      return JSON.parse(sessionStorage.getItem(key));
+    key = encodeURIComponent(key);
+    let data = sessionStorage.getItem(key);
+
+    if (!data) {
+      return null;
     } else {
-      return sessionStorage.getItem(key);
+      data = decodeURIComponent(data);
+      return (isObject) ? JSON.parse(data) : data;
     }
   }
 
   remove(key: string): IStorage {
+    key = encodeURIComponent(key);
     sessionStorage.removeItem(key);
     return this;
   }
@@ -81,16 +92,29 @@ export class CookieStorage implements IStorage {
 
   get(key: string, isObject?): string | object {
     let cookie = document.cookie;
-    return cookie.split(";").filter((value) => value.startsWith(encodeURIComponent(key)))[0].trim();
+    let cookieValue = cookie.split(";").filter((value) => value.trim().startsWith(encodeURIComponent(key)));
+
+    if (!cookieValue[0]) {
+      return null;
+    }
+    let decode = decodeURIComponent(cookieValue[0]);
+    let value = decode.substr(decode.indexOf("=") + 1);
+
+    return (!isObject) ? value : JSON.parse(value);
   }
 
   remove(key: string): IStorage {
-    document.cookie = `${encodeURIComponent(key)}=;`;
+    document.cookie = `${encodeURIComponent(key)}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
     return this;
   }
 
+
   clear(): IStorage {
-    document.cookie = '';
+    let cookies = document.cookie.split(";");
+    cookies.forEach(el => {
+      let key = el.substr(0, el.indexOf('=')).trim();
+      this.remove(decodeURIComponent(key));
+    });
     return this;
   }
 
@@ -105,7 +129,7 @@ export enum StorageType {
 
 @Injectable()
 export class StorageService implements IStorage {
-  private stora: IStorage;
+  private store: IStorage;
 
   constructor() {
   }
@@ -115,40 +139,59 @@ export class StorageService implements IStorage {
     switch (type) {
       case StorageType.LOCAL:
         if (typeof (localStorage) !== 'undefined') {
-          this.stora = new LocalStorage();
+          this.store = new LocalStorage();
           break;
         }
 
       case StorageType.SESSION:
         if (typeof (sessionStorage) !== 'undefined') {
-          this.stora = new SessionStorage();
+          this.store = new SessionStorage();
           break;
         }
       case StorageType.COOKIE:
-        this.stora = new CookieStorage();
+        this.store = new CookieStorage();
         break;
     }
 
     return this;
   }
 
+  autoDefine(key: string, isObject?): string | object {
+
+    let value: string | object = this.init(StorageType.LOCAL).get(key, isObject);
+
+    if (!value) {
+      value = this.init(StorageType.SESSION).get(key, isObject);
+      if (!value) {
+        value = this.init(StorageType.COOKIE).get(key, isObject);
+      }
+    }
+    return value;
+
+  }
+
+
   add(key: string, value: string | object): IStorage {
-    this.stora.add(key, value);
+    this.store.add(key, value);
     return this;
   }
 
   get(key: string, isObject?): string | object {
-    return this.stora.get(key, isObject);
+    return this.store.get(key, isObject);
   }
 
   remove(key: string): IStorage {
-    this.stora.remove(key);
+    this.store.remove(key);
     return this;
   }
 
   clear(): IStorage {
-    this.stora.clear();
+    this.store.clear();
     return this;
+  }
+
+  hasKey(key: string): boolean {
+    return this.get(key) != null;
   }
 }
 

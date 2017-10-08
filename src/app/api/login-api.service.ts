@@ -9,13 +9,14 @@ import 'rxjs/Rx';
 @Injectable()
 export class LoginApiService extends ARest<ICredential> {
 
-
+  private static URL: string = ApiHelper.Instance.URL_API + "/login";
+  
   constructor(private http:Http) {
     super()
   }
 
-  post(credential: ICredential): Observable<ICredential> {
-    return this.http.post(ApiHelper.Instance.URL_API+"/login",credential)
+  post(value: ICredential): Observable<ICredential> {
+    return this.http.post(`${LoginApiService.URL}/login`,value)
       .map((res:Response)=>res.json())
       .catch((error: any)=>Observable.throw(error.json() || 'Server error'));
   }

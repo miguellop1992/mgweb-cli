@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Headers, Http, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs/Observable';
+import { AuthService } from '../security/auth.service';
 
-@Injectable()
 export class ApiHelper {
     private static instance;
 
@@ -33,24 +33,40 @@ export interface IRest<T> {
 
     get(): Observable<T | T[]>;
 
+    getAll(id?: {}): Observable<T[]>;
+
 
 }
 
 export abstract class ARest<T> {
 
-    post(value: T): Observable<T>{
+    constructor(private auth?: AuthService) {
+
+    }
+
+    getHeaders(): Headers {
+        return new Headers({
+            Authorization: `Bearer ${this.auth.credential.token}`,
+        });
+    }
+
+    post(value: T): Observable<T> {
         throw new Error("Not suppport");
     }
 
-    put(value: T): Observable<T>{
+    put(value: T): Observable<T> {
         throw new Error("Not suppport");
     }
 
-    delete(id: any): Observable<T>{
+    delete(id: any): Observable<T> {
         throw new Error("Not suppport");
     }
 
-    get(): Observable<T | T[]>{
+    get(id: any): Observable<T> {
+        throw new Error("Not suppport");
+    }
+
+    getAll(id?: {}): Observable<T[]> {
         throw new Error("Not suppport");
     }
 
